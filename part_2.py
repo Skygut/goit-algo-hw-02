@@ -13,7 +13,7 @@ def is_palindrome(input_str):
     return True
 
 
-input_string = "A man a plan a canal Panama"
+input_string = "Анна"
 result = is_palindrome(input_string)
 if result:
     print(f"'{input_string}' - це паліндром.")
