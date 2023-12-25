@@ -2,41 +2,32 @@ import queue
 import random
 import time
 
-queue = queue.Queue()
-request_id = 1
+
+def generate_request(q):
+    request_id = random.randint(1, 999)
+    request = f"Запит ID: {request_id}"
+    q.put(request)
+    print(f"Створено: {request}")
 
 
-def generate_request():
-    global request_id
-    request = f"Заявка ID: {request_id}"
-    queue.put(request)
-    print(f"Створили нову заявку: ID {request}")
-    request_id += 1
+def process_request(q):
+    if not q.empty():
+        request = q.get()
+        print(f"Обробка: {request}")
+    else:
+        print("Запит порожній")
 
 
-def process_request():
-    if queue.empty():
-        print("Запит відсутній")
-
-    request = queue.get()
-    print(f"Виконання: {request}")
-
-
-def main():
-    print(f"Створити чергу заявок: ")
-
-    while True:
-        command = input("Введіть команду: ").strip()
-
-        if command == "q":
-            break
-        elif command == "new":
-            generate_request()
-        elif command == "process":
-            process_request()
-        else:
-            print("Команда не вірна.")
+def main_loop():
+    request_queue = queue.Queue()
+    try:
+        while True:
+            generate_request(request_queue)
+            process_request(request_queue)
+            time.sleep(2)
+    except KeyboardInterrupt:
+        print(" Програма зупинена користувачем")
 
 
 if __name__ == "__main__":
-    main()
+    main_loop()
